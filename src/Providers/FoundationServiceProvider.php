@@ -29,7 +29,7 @@ class FoundationServiceProvider extends ServiceProvider{
             /**
              * Create shared object to share with command foundation:unpublish
              */
-            $this->app->singleton('foundation.shared',function(){
+            $this->app->singleton('foundation.command.shared',function(){
                 $shared = new \stdClass();
                 $shared->publishPaths = [];
                 return $shared;
@@ -38,7 +38,7 @@ class FoundationServiceProvider extends ServiceProvider{
             /**
              * This variable hold the container foundation.shared by object references.
              */
-            $this->shared = $this->app->make('foundation.shared');
+            $this->shared = $this->app->make('foundation.command.shared');
 
             /**
              * Register View Files
@@ -70,6 +70,11 @@ class FoundationServiceProvider extends ServiceProvider{
              * Migration Files
              */
             $this->vendorRegisters($this->getMigrations(),'migration');
+
+            /**
+             * Register Commands
+             */
+            $this->registerCommands();
         }//if Running In Console
         else{
 
@@ -94,8 +99,8 @@ class FoundationServiceProvider extends ServiceProvider{
         $output = [];
 
         foreach($files as $file){
-            $dt = Carbon::now()->format('Y_m_d_000000');
-            $migration = str_replace('migration_datetime',$dt,File::name($file));
+            $dt = Carbon::now()->format('Y_m_d');
+            $migration = str_replace('migration',$dt,File::name($file));
             $output[$file] = database_path('migrations/'.$migration.'.php');
         }
 
@@ -118,5 +123,17 @@ class FoundationServiceProvider extends ServiceProvider{
 
             array_push($this->shared->publishPaths[$group],$publish);
         }//foreach
+    }
+
+    public function registerCommands(){
+        $this->app->singleton('command.foundation.publish', function ($app) {
+            return $app['Palamike\Foundation\Console\Commands\FoundationPublish'];
+        });
+        $this->commands('command.foundation.publish');
+
+        $this->app->singleton('command.foundation.unpublish', function ($app) {
+            return $app['Palamike\Foundation\Console\Commands\FoundationUnpublish'];
+        });
+        $this->commands('command.foundation.unpublish');
     }
 }
