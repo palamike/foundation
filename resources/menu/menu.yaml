@@ -1,0 +1,147 @@
+menus :
+  - label : "menu.dashboard"
+    type  : "internal"
+    icon : "tachometer"
+    link : "dashboard"
+    permissions :
+      - "dashboard_view"
+  - label : "menu.service"
+    type  : "placeholder"
+    icon : "heart"
+    permissions :
+      - "service_type_view"
+    children :
+      - label : "menu.service.type"
+        type : "internal"
+        icon : "heart-o"
+        link : "service/service-type"
+        permissions :
+          - "service_type_view"
+      - label : "menu.service.board"
+        type : "internal"
+        icon : "desktop"
+        link : "service/board"
+        permissions :
+          - "service_board_view"
+      - label : "menu.service.transaction"
+        type : "placeholder"
+        icon : "barcode"
+        callback : "transaction_menu_callback"
+        permissions :
+          - "service_transaction_view"
+        children :
+          - label : "menu.service.transaction.all"
+            type : "internal"
+            icon : "barcode"
+            link : "service/transaction-all"
+            permissions :
+              - "service_transaction_view"
+
+  - label : "menu.asset"
+    type  : "placeholder"
+    icon : "building"
+    permissions :
+      - "asset_type_view"
+      - "asset_view"
+    children :
+      - label : "menu.asset.type"
+        type : "internal"
+        icon : "building-o"
+        link : "service/asset-type"
+        permissions :
+          - "asset_type_view"
+      - label : "menu.asset.asset"
+        type : "placeholder"
+        icon : "bookmark-o"
+        callback : "asset_menu_callback"
+        permissions :
+          - "asset_view"
+        children :
+          - label : "menu.asset.all"
+            type : "internal"
+            icon : "building-o"
+            link : "service/asset-all"
+            permissions :
+              - "asset_view"
+  - label : "menu.employee"
+    type  : "placeholder"
+    icon : "users"
+    permissions :
+      - "employee_type_view"
+      - "employee_view"
+    children :
+      - label : "menu.employee.type"
+        type : "internal"
+        icon : "users"
+        link : "service/employee-type"
+        permissions :
+          - "employee_type_view"
+      - label : "menu.employee.employee"
+        type : "placeholder"
+        icon : "user"
+        callback : "employee_menu_callback"
+        permissions :
+          - "employee_view"
+        children :
+          - label : "menu.employee.all"
+            type : "internal"
+            icon : "users"
+            link : "service/employee-all"
+            permissions :
+              - "employee_view"
+  - label : "menu.report"
+    type  : "placeholder"
+    icon : "book"
+    permissions :
+      - "service_report_view"
+    children :
+      - label : "menu.report.daily"
+        type : "internal"
+        icon : "document"
+        link : "service/report/daily"
+        permissions :
+          - "service_report_daily_view"
+  - label : "menu.users"
+    type  : "placeholder"
+    icon : "users"
+    permissions :
+      - "user_view"
+      - "role_view"
+    children :
+      - label : "menu.users.user"
+        type : "internal"
+        icon : "users"
+        link : "auth/user"
+        permissions :
+          - "user_view"
+      - label : "menu.users.role"
+        type : "internal"
+        icon : "graduation-cap"
+        link : "auth/role"
+        permissions :
+          - "role_view"
+  - label : "menu.settings"
+    type  : "placeholder"
+    icon : "cogs"
+    permissions :
+      - "setting_general"
+      - "setting_user"
+    children :
+      - label : "menu.settings.general"
+        type : "internal"
+        icon : "cog"
+        link : "setting/general"
+        permissions :
+          - "setting_general"
+      - label : "menu.settings.user"
+        type : "internal"
+        icon : "users"
+        link : "setting/user"
+        permissions :
+          - "setting_user"
+      - label : "menu.settings.service"
+        type : "internal"
+        icon : "heart-o"
+        link : "setting/service"
+        permissions :
+          - "setting_service"

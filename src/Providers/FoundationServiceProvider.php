@@ -13,6 +13,8 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Contracts\Auth\Access\Gate as GateContract;
+use Palamike\Foundation\Models\Auth\Permission;
 
 class FoundationServiceProvider extends ServiceProvider{
 
@@ -22,7 +24,7 @@ class FoundationServiceProvider extends ServiceProvider{
     protected $database_path = __DIR__.'/../../database';
     protected $shared = null;
 
-    public function boot(){
+    public function boot(GateContract $gate){
 
         if(App::runningInConsole()){
 
@@ -89,7 +91,25 @@ class FoundationServiceProvider extends ServiceProvider{
      */
     public function register()
     {
+        $this->app->singleton('foundation.settings', function () {
+            return new SettingService();
+        });
 
+        $this->app->singleton('foundation.assets', function () {
+            return new AssetService();
+        });
+
+        $this->app->singleton('foundation.languages', function () {
+            return new LanguageService();
+        });
+
+        $this->app->singleton('foundation.menu', function () {
+            return new MenuService();
+        });
+
+        $this->app->singleton('foundation.media', function () {
+            return new MediaService();
+        });
     }
 
     private function getMigrations(){
@@ -135,5 +155,17 @@ class FoundationServiceProvider extends ServiceProvider{
             return $app['Palamike\Foundation\Console\Commands\FoundationUnpublish'];
         });
         $this->commands('command.foundation.unpublish');
+    }
+
+    public function registerPermissions(GateContract $gate){
+        foreach($this->getPermissions() as $permission){
+            $gate->define($permission->name,function(User $user) use ($permission){
+                return $user->hasRole($permission->roles);
+            });
+        }
+    }
+
+    private function getPermissions(){
+        return Permission::with('roles')->get();
     }
 }

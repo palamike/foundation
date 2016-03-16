@@ -13,7 +13,8 @@
 
     "require": {
         "illuminate/support": "^5.2",
-        "nesbot/carbon": "^1.21"
+        "nesbot/carbon": "^1.21",
+        "intervention/image": "^2.3"
     },
 
     "require-dev" : {
@@ -21,6 +22,9 @@
     },
 
     "autoload": {
+        "files": [
+            "src/Support/Functions/helpers.php"
+        ],
         "psr-4": {
             "Palamike\\Foundation\\": "src/"
         }
