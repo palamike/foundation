@@ -1,0 +1,38 @@
+permissions :
+    - admin :
+        - name : "dashboard_view"
+          label : "View Dashboard"
+
+    - profile :
+        - name : "user_profile_view"
+          label : "View User Profile"
+        - name : "user_profile_edit"
+          label : "Edit User Profile"
+
+    - user_mgmt :
+        - name : "user_view"
+          label : "View User"
+        - name : "user_add"
+          label : "Add User"
+        - name : "user_edit"
+          label : "Edit User"
+        - name : "user_delete"
+          label : "Delete User"
+
+    - role_mgmt :
+        - name : "role_view"
+          label : "View Role"
+        - name : "role_add"
+          label : "Add Role"
+        - name : "role_edit"
+          label : "Role User"
+        - name : "role_delete"
+          label : "Delete role"
+
+    - setting :
+        - name : "setting_general"
+          label : "Edit General Setting"
+        - name : "setting_user"
+          label : "Edit User Setting"
+        - name : "setting_media"
+          label : "Edit Media Setting"

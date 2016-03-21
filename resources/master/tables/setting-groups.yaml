@@ -1,0 +1,10 @@
+groups:
+    - name: "general"
+      label: "settings.group.general"
+      description: "settings.group.general.description"
+    - name: "user"
+      label: "settings.group.user"
+      description: "settings.group.user.description"
+    - name: "media"
+      label: "settings.group.media"
+      description: "settings.group.media.description"

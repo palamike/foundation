@@ -1,0 +1,11 @@
+groups:
+    - name: "admin"
+      label: "Administrator"
+    - name: "profile"
+      label: "User Profile"
+    - name: "role_mgmt"
+      label: "Role Management"
+    - name: "user_mgmt"
+      label: "User Management"
+    - name: "setting"
+      label: "Settings"

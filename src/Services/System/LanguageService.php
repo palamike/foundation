@@ -11,12 +11,12 @@ namespace Palamike\Foundation\Services\System;
 
 class LanguageService
 {
-    public function getLangArrayJS($domain,$file){
+    public function getLangArrayJS($domain,$file,$commonFile = 'common.php'){
 
         $locale = app_locale();
         $lang = [$locale => []];
 
-        $commons = include(resource_path('lang'.DIRECTORY_SEPARATOR.app_locale().DIRECTORY_SEPARATOR.'common.php'));
+        $commons = include(resource_path('lang'.DIRECTORY_SEPARATOR.app_locale().DIRECTORY_SEPARATOR.$commonFile));
         foreach($commons as $key => $value){
             $lang[$locale]['common'][str_replace('.','_',$key)] = $value;
         }//foreach
@@ -28,6 +28,5 @@ class LanguageService
 
         return $lang;
     }
-
 
 }
