@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Console\Commands\Database\Tools;
+namespace Palamike\Foundation\Console\Commands;
 
-use App\Models\Auth\Permission;
-use App\Models\Auth\PermissionGroup;
-use App\Models\Auth\Role;
-use App\Models\System\Setting;
-use App\Models\System\SettingGroup;
-use App\Support\Facades\SettingService;
+use Palamike\Foundation\Models\Auth\Permission;
+use Palamike\Foundation\Models\Auth\PermissionGroup;
+use Palamike\Foundation\Models\Auth\Role;
+use Palamike\Foundation\Models\System\Setting;
+use Palamike\Foundation\Models\System\SettingGroup;
+use Palamike\Foundation\Support\Facades\SettingService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\Yaml\Parser;
 use Symfony\Component\Yaml\Exception\ParseException;
 
-class Master extends Command
+class DBTMaster extends Command
 {
     /**
      * The name and signature of the console command.
@@ -53,15 +53,70 @@ class Master extends Command
 
         DB::beginTransaction();
         try{
-            $this->refreshPermissionGroup(resource_path('master'.DIRECTORY_SEPARATOR.'tables'.DIRECTORY_SEPARATOR.'groups.yaml'));
-            $this->refreshPermission(resource_path('master'.DIRECTORY_SEPARATOR.'tables'.DIRECTORY_SEPARATOR.'permissions.yaml'));
-            $this->refreshAdminRole(resource_path('master'.DIRECTORY_SEPARATOR.'tables'.DIRECTORY_SEPARATOR.'roles.yaml'));
 
-            $this->refreshSettingGroup(resource_path('master'.DIRECTORY_SEPARATOR.'tables'.DIRECTORY_SEPARATOR.'setting-groups.yaml'));
-            $this->refreshSetting(resource_path('master'.DIRECTORY_SEPARATOR.'tables'.DIRECTORY_SEPARATOR.'settings.yaml'),[
-                'th' => resource_path('lang'.DIRECTORY_SEPARATOR.'th'.DIRECTORY_SEPARATOR.'setting.php'),
-                'en' => resource_path('lang'.DIRECTORY_SEPARATOR.'en'.DIRECTORY_SEPARATOR.'setting.php'),
+            $foundationLang = __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'resources'.DIRECTORY_SEPARATOR.'lang'.DIRECTORY_SEPARATOR;
+            $foundationMaster = __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'resources'.DIRECTORY_SEPARATOR.'master'.DIRECTORY_SEPARATOR;
+            
+            $foundationGroupFile = $foundationMaster.'tables'.DIRECTORY_SEPARATOR.'groups.yaml';
+            $this->refreshPermissionGroup($foundationGroupFile);
+            
+            $groupFile = resource_path('master'.DIRECTORY_SEPARATOR.'tables'.DIRECTORY_SEPARATOR.'groups.yaml');
+            if(file_exists($groupFile)){
+                $this->refreshPermissionGroup($groupFile);    
+            }//if
+            else{
+                $this->info('File Not found skipped : '.$groupFile);
+            }//else
+
+            $foundationPermissionFile = $foundationMaster.'tables'.DIRECTORY_SEPARATOR.'permissions.yaml';
+            $this->refreshPermission($foundationPermissionFile);
+
+            $permissionFile = resource_path('master'.DIRECTORY_SEPARATOR.'tables'.DIRECTORY_SEPARATOR.'permissions.yaml');
+            if(file_exists($permissionFile)){
+                $this->refreshPermission($permissionFile);
+            }//if
+            else{
+                $this->info('File Not found skipped : '.$permissionFile);
+            }//else
+
+            $foundationAdminRoleFile = $foundationMaster.'tables'.DIRECTORY_SEPARATOR.'roles.yaml';
+            $this->refreshAdminRole($foundationAdminRoleFile);
+
+            $adminRoleFile = resource_path('master'.DIRECTORY_SEPARATOR.'tables'.DIRECTORY_SEPARATOR.'roles.yaml');
+            if(file_exists($adminRoleFile)){
+                $this->refreshAdminRole($adminRoleFile);
+            }//if
+            else{
+                $this->info('File Not found skipped : '.$adminRoleFile);
+            }//else
+
+            $foundationSettingGroupFile = $foundationMaster.'tables'.DIRECTORY_SEPARATOR.'setting-groups.yaml';
+            $this->refreshSettingGroup($foundationSettingGroupFile);
+
+            $settingGroupFile = resource_path('master'.DIRECTORY_SEPARATOR.'tables'.DIRECTORY_SEPARATOR.'setting-groups.yaml');
+            if(file_exists($settingGroupFile)){
+                $this->refreshSettingGroup($settingGroupFile);
+            }//if
+            else{
+                $this->info('File Not found skipped : '.$settingGroupFile);
+            }//else
+
+            $foundationSettingFile = $foundationMaster.'tables'.DIRECTORY_SEPARATOR.'settings.yaml';
+            $this->refreshSetting($foundationSettingFile,[
+                'th' => $foundationLang.'th'.DIRECTORY_SEPARATOR.'setting.php',
+                'en' => $foundationLang.'en'.DIRECTORY_SEPARATOR.'setting.php',
             ]);
+
+            $settingFile = resource_path('master'.DIRECTORY_SEPARATOR.'tables'.DIRECTORY_SEPARATOR.'settings.yaml');
+            if(file_exists($settingFile)){
+                $this->refreshSetting($settingFile ,[
+                    'th' => resource_path('lang'.DIRECTORY_SEPARATOR.'th'.DIRECTORY_SEPARATOR.'setting.php'),
+                    'en' => resource_path('lang'.DIRECTORY_SEPARATOR.'en'.DIRECTORY_SEPARATOR.'setting.php'),
+                ]);
+            }
+            else{
+                $this->info('File Not found skipped : '.$settingFile);
+            }
 
             DB::commit();
 
@@ -97,7 +152,7 @@ class Master extends Command
             throw $e;
         }
 
-        $this->info('Refresh Permission Group : OK');
+        $this->info('Refreshed Permission Group : '.$file);
     }//private function refreshPermissionGroup
 
     private function refreshPermission($file){
@@ -147,7 +202,7 @@ class Master extends Command
             throw $e;
         }
 
-        $this->info('Refresh Permission : OK');
+        $this->info('Refreshed Permission : '.$file);
     }//private function refreshPermission
 
     private function refreshAdminRole($file){
@@ -178,7 +233,7 @@ class Master extends Command
             throw $e;
         }
 
-        $this->info('Refresh Admin Role : OK');
+        $this->info('Refreshed Admin Role : '.$file);
     }//private function refreshAdminRole
 
     private function refreshSettingGroup($file){
@@ -205,7 +260,7 @@ class Master extends Command
             throw $e;
         }
 
-        $this->info('Refresh Setting Group : OK');
+        $this->info('Refreshed Setting Group : '.$file);
     }//private function refreshSettingGroup
 
     private function refreshSetting($file,$langFiles){
@@ -282,6 +337,6 @@ class Master extends Command
             throw $e;
         }
 
-        $this->info('Refresh Setting : OK');
+        $this->info('Refreshed Setting : '.$file);
     }//private function refreshSetting
 }

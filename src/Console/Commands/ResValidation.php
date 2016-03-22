@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Console\Commands\Resource\Generator;
+namespace Palamike\Foundation\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Schema;
 
-class Validation extends Command
+class ResValidation extends Command
 {
     /**
      * The name and signature of the console command.

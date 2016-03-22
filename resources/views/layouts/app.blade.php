@@ -7,10 +7,14 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
+    <link rel="icon"
+          type="image/png"
+          href="{{url('assets/images/favicon.png')}}" />
+
     <title>@yield('page-title') | {{setting('application.name')}}</title>
 
     {!! styles([
-        "font.th-superspace",
+        "font.th_k2d_july8",
         "vendor.bootstrap" ,
         "vendor.font-awesome",
         "vendor.ionicons",
@@ -24,7 +28,7 @@
 
     @yield('page-styles')
 
-    {!! styles("app.main") !!}
+    {{-- styles("app.main") --}}
 
     {!! scripts(["vendor.respond", "vendor.fastclick"]) !!}
 

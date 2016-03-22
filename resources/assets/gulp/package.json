@@ -1,0 +1,14 @@
+{
+  "private": true,
+  "devDependencies": {
+    "gulp": "^3.8.8",
+    "stringify": "^5.0.0"
+  },
+  "dependencies": {
+    "bootstrap-sass": "^3.0.0",
+    "dropzone": "^4.3.0",
+    "laravel-elixir": "^4.0.0",
+    "laravel-elixir-vueify": "^1.0.0",
+    "vue-i18n": "^2.4.0"
+  }
+}

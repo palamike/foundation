@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Console\Commands\Resource\Generator;
+namespace Palamike\Foundation\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Schema;
 
-class Lang extends Command
+class ResTable extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'res:lang
+    protected $signature = 'res:table
                             {table : table to get columns name aka field name}
-                            {--prefix= : prefix of the langguage key}';
+                            {--prefix= : prefix of the language key}';
 
     /**
      * The console command description.

@@ -1,0 +1,33 @@
+{
+  "name": "palamike/foundation",
+  "version": "1.0.0",
+  "authors": [
+    "palagornp <palagorn@gmail.com>"
+  ],
+  "description": "palamike/foundation public assets",
+  "main": "bower.json",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/assets/vendor",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "AdminLTE": "admin-lte#^2.3.2",
+    "jquery": "^2.2.0",
+    "bootstrap": "^3.3.6",
+    "font-awesome": "fontawesome#^4.5.0",
+    "animate.css": "^3.5.1",
+    "iCheck": "icheck#^1.0.2",
+    "fastclick": "^1.0.6",
+    "Ionicons": "ionicons#^2.0.1",
+    "html5shiv": "^3.7.3",
+    "respond": "^1.4.2",
+    "dropzone": "^4.3.0",
+    "eonasdan-bootstrap-datetimepicker": "^4.17.37"
+  }
+}

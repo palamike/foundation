@@ -23,7 +23,7 @@ return [
     ],
 
     'styles' => [
-        'font.th-superspace' => 'fonts/th_superspace/stylesheet.css',
+        'font.th_k2d_july8' => 'fonts/th_k2d_july_8/style.css',
         'vendor.bootstrap' => 'vendor/bootstrap/css/bootstrap.min.css',
         'vendor.font-awesome' => 'vendor/font-awesome/css/font-awesome.min.css',
         'vendor.animate' => 'vendor/animate/animate.min.css',

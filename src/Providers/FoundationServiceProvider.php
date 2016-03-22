@@ -63,15 +63,34 @@ class FoundationServiceProvider extends ServiceProvider{
              */
             $this->vendorRegisters([
                 $this->config_path.'/'.$this->package_name.'.php' => config_path($this->package_name.'.php'),
+                $this->config_path.'/assets.php' => config_path('assets.php')
             ],'config');
             $this->mergeConfigFrom(
                 $this->config_path.'/'.$this->package_name.'.php', $this->package_name
             );
+            $this->mergeConfigFrom(
+                $this->config_path.'/assets.php','assets'
+            );
+            
 
             /**
              * Migration Files
              */
             $this->vendorRegisters($this->getMigrations(),'migration');
+
+            /**
+             * Assets
+             */
+            $this->vendorRegisters([
+                $this->resource_path.'/assets' => resource_path('assets/vendor/'.$this->package_name)
+            ],'asset');
+
+            /**
+             * Gulp File (use --force function to overwrite)
+             */
+            $this->publishes([
+                    $this->resource_path.'/assets/gulp' => base_path('/')
+                ],'gulp');
 
             /**
              * Register Commands
@@ -155,6 +174,26 @@ class FoundationServiceProvider extends ServiceProvider{
             return $app['Palamike\Foundation\Console\Commands\FoundationUnpublish'];
         });
         $this->commands('command.foundation.unpublish');
+
+        $this->app->singleton('command.foundation.dbt.fillable', function ($app) {
+            return $app['Palamike\Foundation\Console\Commands\DBTFillable'];
+        });
+        $this->commands('command.foundation.dbt.fillable');
+
+        $this->app->singleton('command.foundation.dbt.master', function ($app) {
+            return $app['Palamike\Foundation\Console\Commands\DBTMaster'];
+        });
+        $this->commands('command.foundation.dbt.master');
+
+        $this->app->singleton('command.foundation.res.table', function ($app) {
+            return $app['Palamike\Foundation\Console\Commands\ResTable'];
+        });
+        $this->commands('command.foundation.res.table');
+
+        $this->app->singleton('command.foundation.res.validation', function ($app) {
+            return $app['Palamike\Foundation\Console\Commands\ResValidation'];
+        });
+        $this->commands('command.foundation.res.validation');
     }
 
     public function registerPermissions(GateContract $gate){
