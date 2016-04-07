@@ -21,7 +21,8 @@
         "vendor.animate",
         "vendor.admin-lte",
         "vendor.admin-lte.skin-blue",
-        "vendor.icheck.bue"
+        "vendor.icheck.blue",
+        "vendor.foundation"
         ]) !!}
 
     @yield('template-styles')
@@ -38,7 +39,13 @@
     @yield('template')
 
     <!-- JavaScripts -->
-    {!! scripts(["vendor.jquery","vendor.bootstrap","vendor.icheck", "vendor.admin-lte"]) !!}
+    {!! scripts([
+        "vendor.jquery",
+        "vendor.bootstrap",
+        "vendor.icheck",
+        "vendor.admin-lte",
+        "vendor.foundation"
+        ]) !!}
 
     @yield('template-scripts')
 

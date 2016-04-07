@@ -6,7 +6,7 @@
  * Time: 9:24 AM
  */
 
-namespace App\Services\UI;
+namespace Palamike\Foundation\Services\UI;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\Yaml\Parser;
 use Symfony\Component\Yaml\Exception\ParseException;

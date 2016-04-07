@@ -79,4 +79,10 @@ elixir(function(mix) {
         .copy(ElixirUtil.vendorSrcPath('dropzone/dist/min/dropzone.min.css'), ElixirUtil.vendorPublicPath('dropzone/dropzone.min.css'))
         .copy(ElixirUtil.vendorSrcPath('foundation/fonts/th_k2d_july8'), ElixirUtil.assetPublicPath('fonts/th_k2d_july8'))
         .copy(ElixirUtil.assetSrcPath('images'), ElixirUtil.assetPublicPath('images'));
+
+    var storedDir = elixir.config.assetsDir;
+    elixir.config.assetsPath = ElixirUtil.vendorSrcPath('foundation');
+    mix.sass(['foundation.scss','loading.scss'],ElixirUtil.vendorPublicPath('foundation/foundation.css'));
+    elixir.config.assetsPath = storedDir;
+    mix.scripts(['library/common.js','library/ui.js'],ElixirUtil.vendorPublicPath('foundation/foundation.js'),ElixirUtil.vendorSrcPath('foundation/js'));
 });

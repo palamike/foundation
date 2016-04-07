@@ -35,6 +35,7 @@ class AuthController extends Controller
      */
     protected $redirectTo = '/dashboard';
     protected $username = 'email';
+    protected $loginView = 'foundation::auth.login';
 
     /**
      * Create a new authentication controller instance.
@@ -78,6 +79,38 @@ class AuthController extends Controller
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+    }
+
+    public function login(Request $request)
+    {
+        $this->validateLogin($request);
+
+        // If the class is using the ThrottlesLogins trait, we can automatically throttle
+        // the login attempts for this application. We'll key this by the username and
+        // the IP address of the client making these requests into this application.
+        $throttles = $this->isUsingThrottlesLoginsTrait();
+
+        if ($throttles && $lockedOut = $this->hasTooManyLoginAttempts($request)) {
+            $this->fireLockoutEvent($request);
+
+            return $this->sendLockoutResponse($request);
+        }
+
+        $credentials = $this->getCredentials($request);
+        $credentials['status'] = 'active';
+
+        if (Auth::guard($this->getGuard())->attempt($credentials, $request->has('remember'))) {
+            return $this->handleUserWasAuthenticated($request, $throttles);
+        }
+
+        // If the login attempt was unsuccessful we will increment the number of attempts
+        // to login and redirect the user back to the login form. Of course, when this
+        // user surpasses their maximum number of attempts they will get locked out.
+        if ($throttles && ! $lockedOut) {
+            $this->incrementLoginAttempts($request);
+        }
+
+        return $this->sendFailedLoginResponse($request);
     }
 
     /**
@@ -142,6 +175,10 @@ class AuthController extends Controller
         $data = $request->all();
         $validator = Validator::make($data, [
             $this->loginUsername() => 'required', 'password' => 'required',
+        ],[
+            'username.required' => trans('foundation::login.validation.username.required'),
+            'email.required' => trans('foundation::login.validation.email.required'),
+            'password.required' => trans('foundation::login.validation.password.required'),
         ]);
 
         $validator->after(function($validator) use ($data){
@@ -182,8 +219,8 @@ class AuthController extends Controller
      */
     protected function getFailedLoginMessage()
     {
-        return Lang::has('login.validation.fail')
-            ? Lang::get('login.validation.fail')
+        return Lang::has('foundation::login.validation.fail')
+            ? Lang::get('foundation::login.validation.fail')
             : 'These credentials do not match our records.';
     }
 }

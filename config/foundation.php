@@ -9,5 +9,18 @@
 return [
     'route' => [
         'prefix' => '',
+    ],
+
+    /**
+     *  Logging configurations
+     */
+
+    'log' => [
+        'global' => env('APP_LOG_GLOBAL', true),
+        'access' => env('APP_LOG_ACCESS', true),
+        'store' => env('APP_LOG_STORE', true),
+        'navigation' => env('APP_LOG_NAVIGATION', false),
+        'query' => env('APP_LOG_QUERY', false),
+        'debug' => env('APP_LOG_DEBUG', false),
     ]
 ];

@@ -6,7 +6,7 @@
  * Time: 7:25 PM
  */
 
-namespace Palamike\Foundation;
+namespace Palamike\Foundation\Methods;
 
 
 use Carbon\Carbon;

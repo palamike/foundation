@@ -6,7 +6,7 @@
  * Time: 7:39 PM
  */
 
-namespace Palamike\Foundation;
+namespace Palamike\Foundation\Methods;
 
 
 use Illuminate\Support\Facades\Cache;

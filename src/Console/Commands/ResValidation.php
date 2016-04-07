@@ -43,7 +43,15 @@ class ResValidation extends Command
     {
         $controllerName = $this->argument('controller');
         $prefix = $this->option('prefix');
-        $controller = App::make("App\\Http\\Controllers\\".$controllerName);
+        $controller = null;
+        
+        try{
+            $controller = App::make("App\\Http\\Controllers\\".$controllerName);    
+        }
+        catch(\ReflectionException $e){
+            $controller = App::make("Palamike\\Foundation\\Http\\Controllers\\".$controllerName);
+        }
+        
         $rules = $controller->rules;
 
         $this->info('Start generate the validation resources key for '.$controllerName);

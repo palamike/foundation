@@ -2,9 +2,11 @@
 
 namespace Palamike\Foundation\Console\Commands;
 
+use Illuminate\Support\Facades\Hash;
 use Palamike\Foundation\Models\Auth\Permission;
 use Palamike\Foundation\Models\Auth\PermissionGroup;
 use Palamike\Foundation\Models\Auth\Role;
+use Palamike\Foundation\Models\Auth\User;
 use Palamike\Foundation\Models\System\Setting;
 use Palamike\Foundation\Models\System\SettingGroup;
 use Palamike\Foundation\Support\Facades\SettingService;
@@ -53,6 +55,19 @@ class DBTMaster extends Command
 
         DB::beginTransaction();
         try{
+
+            $admin = User::find(1);
+            if(empty($admin)){
+                User::create([
+                    'name' => 'Administrator',
+                    'email' => 'admin@foundation.tld',
+                    'password' => Hash::make('password'),
+                    'username' => 'admin',
+                    'status' => 'active',
+                    'created_by' => 1,
+                    'created_by_name' => 'command'
+                ]);
+            }//if
 
             $foundationLang = __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'resources'.DIRECTORY_SEPARATOR.'lang'.DIRECTORY_SEPARATOR;
             $foundationMaster = __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'resources'.DIRECTORY_SEPARATOR.'master'.DIRECTORY_SEPARATOR;
@@ -139,7 +154,7 @@ class DBTMaster extends Command
                 $find = PermissionGroup::byName($group['name'])->first();
                 if(empty($find)){
                     $group['created_by'] = 1;
-                    PermissionGroup::create($group);
+                    $group = PermissionGroup::create($group);
                 }//if
                 else{
                     $group['updated_by'] = 1;
@@ -225,13 +240,18 @@ class DBTMaster extends Command
                 }//else
 
                 $find->permissions()->sync($permissionIds);
-
             }//foreach
         }
         catch(ParseException $e){
             $this->error($file.' file can not be parse!!');
             throw $e;
         }
+
+        $admin = User::find(1);
+
+        if(count($admin->roles) == 0){
+            $admin->roles()->attach(1);
+        }//if
 
         $this->info('Refreshed Admin Role : '.$file);
     }//private function refreshAdminRole
@@ -264,11 +284,16 @@ class DBTMaster extends Command
     }//private function refreshSettingGroup
 
     private function refreshSetting($file,$langFiles){
-
+        
         $languages = [];
 
         foreach($langFiles as $lang => $langFile){
-            $languages[$lang] = include $langFile;
+            if(file_exists($langFile)){
+                $languages[$lang] = include $langFile;    
+            }
+            else{
+                $languages[$lang] = [];
+            }
         }//foreach
 
         try{
@@ -279,7 +304,6 @@ class DBTMaster extends Command
 
             $settingGroups = $value['settings'];
             foreach($settingGroups as $settingGroup) {
-
                 foreach($settingGroup as $group => $settings){
                     foreach($settings as $setting){
                         if(!array_key_exists($group,$groupMap)){

@@ -6,7 +6,7 @@
  * Time: 1:38 PM
  */
 
-namespace App\Services\UI;
+namespace Palamike\Foundation\Services\UI;
 
 
 use Illuminate\Support\Facades\Config;

@@ -19,13 +19,17 @@ class RouteService {
         static::auth($prefix);
 
         if(empty($prefix)){
-            Route::group(['middleware' => ['web','auth']], function () {
+            Route::group([
+                'namespace' => 'Palamike\\Foundation\\Http\\Controllers',
+                'middleware' => ['web','auth']
+            ], function () {
                 static::foundation();
             });
         }
         else{
             Route::group([
                 'prefix' => $prefix ,
+                'namespace' => 'Palamike\\Foundation\\Http\\Controllers',
                 'middleware' => ['web','auth'] ], function () {
                     static::foundation();
             });
@@ -66,16 +70,16 @@ class RouteService {
         Route::group(['prefix' => 'auth', 'namespace' => 'Auth' ],function(){
             Route::get('user/list', ['as' => 'auth.user.list', 'uses' => 'UserController@query']);
             Route::resource('user','UserController',[
-                'only' => [ 'index', 'create', 'edit' , 'store', 'update', 'destroy']
+                'except' => [ 'show']
             ]);
 
             Route::get('role/list', ['as' => 'auth.role.list', 'uses' => 'RoleController@query']);
             Route::resource('role','RoleController',[
-                'only' => [ 'index', 'create', 'edit' , 'store', 'update', 'destroy']
+                'except' => [ 'show']
             ]);
 
             Route::resource('profile','ProfileController',[
-                'only' => [ 'index', 'edit' , 'update' ]
+                'except' => [ 'show']
             ]);
         });
 

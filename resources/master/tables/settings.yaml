@@ -1,10 +1,10 @@
 settings :
     - general :
-        # application name default = servicize
+        # application name default = foundation
         - name : "application.name"
           label : "setting.general.application.name"
           description : "setting.general.application.name.description"
-          default : "Servicize"
+          default : "Foundation"
           type : "string"
           input : "text"
           validation : "required|max:255"
@@ -16,11 +16,11 @@ settings :
           type : "integer"
           input : "text"
           validation : "required|max:100"
-        # application accronyme = svc
+        # application accronyme = fdt
         - name : "application.accronyme"
           label : "setting.general.application.accronyme"
           description : "setting.general.application.accronyme.description"
-          default : "SVC"
+          default : "FDT"
           type : "string"
           input : "text"
           validation : "required|max:3"
@@ -110,60 +110,3 @@ settings :
           type : "integer"
           input : "text"
           validation : "required|integer"
-
-    - service :
-        # primary employee type
-        - name : "service.transaction.type"
-          label : "setting.service.transaction.type"
-          description : "setting.service.transaction.type.description"
-          default : "1"
-          type : "integer"
-          input : "select"
-          validation : "required|integer"
-          choices : "fetch"
-          config :
-            class : 'App\Models\Service\ServiceType'
-            key_field : 'id'
-            label_field : 'label'
-        # primary employee type
-        - name : "service.employee.agent.type"
-          label : "setting.service.employee.agent.type"
-          description : "setting.service.employee.agent.type.description"
-          default : "1"
-          type : "integer"
-          input : "select"
-          validation : "required|integer"
-          choices : "fetch"
-          config :
-            class : 'App\Models\Service\EmployeeType'
-            key_field : 'id'
-            label_field : 'label'
-        - name : "service.transaction.pagination"
-          label : "setting.service.transaction.pagination"
-          description : "setting.service.transaction.pagination"
-          default : "18"
-          type : "integer"
-          input : "text"
-          validation : "required|integer"
-        - name : "service.transaction.reload"
-          label : "setting.service.transaction.reload"
-          description : "setting.service.transaction.reload"
-          default : "45"
-          type : "integer"
-          input : "text"
-          validation : "required|integer"
-        - name : "service.report.pagination"
-          label : "setting.service.report.pagination"
-          description : "setting.service.report.pagination.description"
-          default : "15"
-          type : "integer"
-          input : "text"
-          validation : "required|integer"
-        - name : "service.report.archive"
-          label : "setting.service.report.archive"
-          description : "setting.service.report.archive.description"
-          default : "90"
-          type : "integer"
-          input : "text"
-          validation : "required|integer"
-

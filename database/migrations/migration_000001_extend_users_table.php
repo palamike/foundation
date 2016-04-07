@@ -15,7 +15,7 @@ class ExtendUsersTable extends ExtendedMigration
         Schema::table('users',function(Blueprint $table){
             $table->string('username')->unique();
             $table->string('status')->default('inactive');
-            $this->addUserStamps($table);
+            $this->addUserStamps($table,false);
         });
 
         Schema::create('signon_sessions', function (Blueprint $table) {
@@ -46,7 +46,7 @@ class ExtendUsersTable extends ExtendedMigration
         Schema::table('users',function(Blueprint $table){
             $table->dropColumn('username');
             $table->dropColumn('status');
-            $this->dropUserStamps($table);
+            $this->dropUserStamps($table,false);
         });
     }
 }

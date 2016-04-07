@@ -1,10 +1,10 @@
-@extends('layouts.single-box')
+@extends('foundation::layouts.single-box')
 
-@section('page-title', trans('login.sign.in') )
+@section('page-title', trans('foundation::login.sign.in') )
 
 @section('content')
     <div class="login-box-body">
-        <p class="login-box-msg">@lang('login.title')</p>
+        <p class="login-box-msg">@lang('foundation::login.title')</p>
 
         <form action="{{ url('/login') }}" role="form" method="post">
             {!! csrf_field() !!}
@@ -38,18 +38,18 @@
                 <div class="col-xs-8">
                     <div class="checkbox icheck">
                         <label>
-                            <input name="remember" type="checkbox"> @lang('login.remember')
+                            <input name="remember" type="checkbox"> @lang('foundation::login.remember')
                         </label>
                     </div>
                 </div>
                 <!-- /.col -->
                 <div class="col-xs-4">
-                    <button type="submit" class="btn btn-primary btn-block btn-flat">@lang('login.sign.in')</button>
+                    <button type="submit" class="btn btn-primary btn-block btn-flat">@lang('foundation::login.sign.in')</button>
                 </div>
                 <!-- /.col -->
             </div>
         </form>
 
-        <a href="{{ url('/password/reset') }}">@lang('login.forgot.password')</a><br>
+        <a href="{{ url('/password/reset') }}">@lang('foundation::login.forgot.password')</a><br>
     </div>
 @endsection

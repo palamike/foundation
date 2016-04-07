@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('foundation::layouts.app')
 
 @section('body-class','login-page')
 
@@ -17,7 +17,7 @@
 @section('page-scripts')
     <script>
         $(function () {
-            UserInterfaceUtil.icheck();
+            FoundationUI.icheck();
         });
     </script>
 @endsection

@@ -17,6 +17,8 @@ return [
     'email.address' => 'อีเมลล์แอดเดรส',
     'password' => 'รหัสผ่าน',
     'confirm.password' => 'ยืนยันรหัสผ่าน',
-    'validation.fail' => 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง'
-
+    'validation.fail' => 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง',
+    'validation.username.required' => 'กรุณาระบุชื่อผู้ใช้',
+    'validation.email.required' => 'กรุณาระบุอีเมลล์',
+    'validation.password.required' => 'กรุณาระบุรหัสผ่าน',
 ];

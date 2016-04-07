@@ -8,35 +8,65 @@
 
 namespace Palamike\Foundation\Providers;
 
-
 use Carbon\Carbon;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Contracts\Auth\Access\Gate as GateContract;
+use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
+use Palamike\Foundation\Events\DataQuery;
+use Palamike\Foundation\Events\DataStore;
+use Palamike\Foundation\Events\Debug;
+use Palamike\Foundation\Events\RouteNavigation;
+use Palamike\Foundation\Events\UserAccess;
+use Palamike\Foundation\Listeners\FoundationLogListener;
 use Palamike\Foundation\Models\Auth\Permission;
+use Palamike\Foundation\Services\System\LanguageService;
+use Palamike\Foundation\Services\System\SettingService;
+use Palamike\Foundation\Services\UI\AssetService;
+use Palamike\Foundation\Services\UI\MenuService;
 
-class FoundationServiceProvider extends ServiceProvider{
+class FoundationServiceProvider extends ServiceProvider {
 
     protected $package_name = 'foundation';
-    protected $resource_path = __DIR__.'/../../resources';
-    protected $config_path = __DIR__.'/../../config';
-    protected $database_path = __DIR__.'/../../database';
+    protected $resource_path = __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'resources';
+    protected $config_path = __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'config';
+    protected $database_path = __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'database';
     protected $shared = null;
 
-    public function boot(GateContract $gate){
+    public function boot(GateContract $gate,DispatcherContract $events){
+
+        parent::boot($events);
+
+        $logConfig = (boolean)config('foundation.log');
+        $appDebug = (boolean)config('app.debug');
+        
+        if($logConfig['global'] && $logConfig['access']){
+            $events->listen(UserAccess::class,FoundationLogListener::class);    
+        }//if
+        
+        if($logConfig['global'] && $logConfig['store']){
+            $events->listen(DataStore::class,FoundationLogListener::class);    
+        }
+        
+        if($logConfig['global'] && $logConfig['navigation']){
+            $events->listen(RouteNavigation::class,FoundationLogListener::class);
+        }
+
+        if($logConfig['global'] && $logConfig['query']){
+            $events->listen(DataQuery::class,FoundationLogListener::class);
+            DB::listen(function($query){
+                Event::fire(new DataQuery($query));
+            });
+        }//if
+
+        if($appDebug && $logConfig['global'] && $logConfig['query']){
+            $events->listen(Debug::class,FoundationLogListener::class);
+        }
 
         if(App::runningInConsole()){
-
-            /**
-             * Create shared object to share with command foundation:unpublish
-             */
-            $this->app->singleton('foundation.command.shared',function(){
-                $shared = new \stdClass();
-                $shared->publishPaths = [];
-                return $shared;
-            });
-
             /**
              * This variable hold the container foundation.shared by object references.
              */
@@ -45,31 +75,37 @@ class FoundationServiceProvider extends ServiceProvider{
             /**
              * Register View Files
              */
-            $this->loadViewsFrom($this->resource_path.'/views', $this->package_name);
+            $this->loadViewsFrom($this->resource_path.DIRECTORY_SEPARATOR.'views', $this->package_name);
             $this->vendorRegisters([
-                $this->resource_path.'/views' => resource_path('views/vendor/'.$this->package_name),
+                $this->resource_path.DIRECTORY_SEPARATOR.'views' => resource_path('views/vendor/'.$this->package_name),
             ],'view');
 
             /**
              * Register Translation Files
              */
-            $this->loadTranslationsFrom($this->resource_path.'/lang', $this->package_name);
+            $this->loadTranslationsFrom($this->resource_path.DIRECTORY_SEPARATOR.'lang', $this->package_name);
             $this->vendorRegisters([
-                $this->resource_path.'/lang' => resource_path('lang/vendor/'.$this->package_name),
+                $this->resource_path.DIRECTORY_SEPARATOR.'lang' => resource_path('lang/vendor/'.$this->package_name),
+                $this->resource_path.DIRECTORY_SEPARATOR.'lang'.DIRECTORY_SEPARATOR.'default'.DIRECTORY_SEPARATOR.'auth.php' => resource_path('lang/th/auth.php'),
+                $this->resource_path.DIRECTORY_SEPARATOR.'lang'.DIRECTORY_SEPARATOR.'default'.DIRECTORY_SEPARATOR.'pagination.php' => resource_path('lang/th/pagination.php'),
+                $this->resource_path.DIRECTORY_SEPARATOR.'lang'.DIRECTORY_SEPARATOR.'default'.DIRECTORY_SEPARATOR.'passwords.php' => resource_path('lang/th/passwords.php'),
+                $this->resource_path.DIRECTORY_SEPARATOR.'lang'.DIRECTORY_SEPARATOR.'default'.DIRECTORY_SEPARATOR.'validation.php' => resource_path('lang/th/validation.php')
             ],'lang');
 
             /**
              * Register and merge package configuration File with the application configuration file.
              */
             $this->vendorRegisters([
-                $this->config_path.'/'.$this->package_name.'.php' => config_path($this->package_name.'.php'),
-                $this->config_path.'/assets.php' => config_path('assets.php')
+                $this->config_path.DIRECTORY_SEPARATOR.$this->package_name.'.php' => config_path($this->package_name.'.php'),
+                $this->config_path.DIRECTORY_SEPARATOR.'assets.php' => config_path('assets.php')
             ],'config');
+            
             $this->mergeConfigFrom(
-                $this->config_path.'/'.$this->package_name.'.php', $this->package_name
+                $this->config_path.DIRECTORY_SEPARATOR.$this->package_name.'.php', $this->package_name
             );
+            
             $this->mergeConfigFrom(
-                $this->config_path.'/assets.php','assets'
+                $this->config_path.DIRECTORY_SEPARATOR.'assets.php','assets'
             );
             
 
@@ -82,14 +118,14 @@ class FoundationServiceProvider extends ServiceProvider{
              * Assets
              */
             $this->vendorRegisters([
-                $this->resource_path.'/assets' => resource_path('assets/vendor/'.$this->package_name)
+                $this->resource_path.DIRECTORY_SEPARATOR.'assets' => resource_path('assets/vendor/'.$this->package_name)
             ],'asset');
 
             /**
              * Gulp File (use --force function to overwrite)
              */
             $this->publishes([
-                    $this->resource_path.'/assets/gulp' => base_path('/')
+                    $this->resource_path.DIRECTORY_SEPARATOR.'assets'.DIRECTORY_SEPARATOR.'gulp' => base_path('/')
                 ],'gulp');
 
             /**
@@ -99,6 +135,19 @@ class FoundationServiceProvider extends ServiceProvider{
         }//if Running In Console
         else{
 
+            $this->loadViewsFrom($this->resource_path.DIRECTORY_SEPARATOR.'views', $this->package_name);
+
+            $this->loadTranslationsFrom($this->resource_path.DIRECTORY_SEPARATOR.'lang', $this->package_name);
+
+            $this->mergeConfigFrom(
+                $this->config_path.DIRECTORY_SEPARATOR.$this->package_name.'.php', $this->package_name
+            );
+            
+            $this->mergeConfigFrom(
+                $this->config_path.DIRECTORY_SEPARATOR.'assets.php','assets'
+            );
+
+            $this->registerPermissions($gate);
         }//else Running in web
 
     }
@@ -128,6 +177,15 @@ class FoundationServiceProvider extends ServiceProvider{
 
         $this->app->singleton('foundation.media', function () {
             return new MediaService();
+        });
+
+        /**
+         * Create shared object to share with command foundation:unpublish
+         */
+        $this->app->singleton('foundation.command.shared',function(){
+            $shared = new \stdClass();
+            $shared->publishPaths = [];
+            return $shared;
         });
     }
 

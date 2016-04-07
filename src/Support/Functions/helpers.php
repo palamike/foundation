@@ -6,10 +6,10 @@
  * Time: 10:59 AM
  */
 
-use App\Support\Facades\SettingService;
-use App\Support\Facades\AssetService;
-use App\Support\Facades\MenuService;
-use App\Support\Facades\LanguageService;
+use Palamike\Foundation\Support\Facades\SettingService;
+use Palamike\Foundation\Support\Facades\AssetService;
+use Palamike\Foundation\Support\Facades\MenuService;
+use Palamike\Foundation\Support\Facades\LanguageService;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;

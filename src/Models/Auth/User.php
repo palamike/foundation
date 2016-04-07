@@ -2,7 +2,7 @@
 
 namespace Palamike\Foundation\Models\Auth;
 
-use App\Models\Media\Media;
+use Palamike\Foundation\Models\Media\Media;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Collection;
 

@@ -1,6 +1,6 @@
-@extends('layouts.single-box')
+@extends('foundation::layouts.single-box')
 
-@section('page-title', trans('login.reset.password') )
+@section('page-title', trans('foundation::login.reset.password') )
 
 @section('content')
 
@@ -11,11 +11,11 @@
     @endif
 
     <div class="login-box-body">
-        <p class="login-box-msg">@lang('login.reset.password')</p>
+        <p class="login-box-msg">@lang('foundation::login.reset.password')</p>
 
         <form action="{{ url('/password/email') }}" role="form" method="post">
             {!! csrf_field() !!}
-            @lang('login.email.address')
+            @lang('foundation::login.email.address')
             <div class="form-group has-feedback{{ $errors->has('email') ? ' has-error' : '' }}">
                 <input name="email" type="email" class="form-control" placeholder="Email" value="{{ old('email') }}">
                 <span class="glyphicon glyphicon-user form-control-feedback"></span>
@@ -28,7 +28,7 @@
             <div class="row">
                 <!-- /.col -->
                 <div class="col-xs-12">
-                    <button type="submit" class="btn btn-primary btn-block btn-flat">@lang('login.send.password')</button>
+                    <button type="submit" class="btn btn-primary btn-block btn-flat">@lang('foundation::login.send.password')</button>
                 </div>
                 <!-- /.col -->
             </div>
