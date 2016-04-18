@@ -1,10 +1,10 @@
-@extends('layouts.app')
+@extends('foundation::layouts.app')
 
 @section('body-class','skin-blue sidebar-mini')
 
 @section('template')
 <!-- Main Header -->
-@include('layouts.partials.header')
+@include('foundation::layouts.partials.header')
 <!-- Left side column. contains the logo and sidebar -->
 <aside class="main-sidebar">
 
@@ -18,7 +18,7 @@
         <!-- /.search form -->
 
         <!-- Sidebar Menu -->
-        @include('layouts.partials.menu')
+        @include('foundation::layouts.partials.menu')
         <!-- /.sidebar-menu -->
     </section>
     <!-- /.sidebar -->
@@ -49,7 +49,7 @@
 <!-- /.content-wrapper -->
 
 <!-- Main Footer -->
-@include('layouts.partials.footer')
+@include('foundation::layouts.partials.footer')
 
 <!-- Control Sidebar -->
 <!-- /.control-sidebar -->

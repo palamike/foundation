@@ -4,8 +4,18 @@
 (function(window,$){
 
     var UI = {
-        icheck : function(){
-            $('input[type="checkbox"],input[type="radio"]').iCheck({
+        icheck : function(selector){
+            
+            var sel;
+            
+            if(selector){
+                sel = selector;
+            }
+            else{
+                sel = 'input[type="checkbox"],input[type="radio"]';
+            }
+            
+            $(sel).iCheck({
                 checkboxClass: 'icheckbox_square-blue',
                 radioClass: 'iradio_square-blue',
                 increaseArea: '20%' // optional

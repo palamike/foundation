@@ -20,11 +20,14 @@ return [
         'vendor.html5shiv' => 'vendor/html5shiv/html5shiv.min.js',
         'vendor.respond' => 'vendor/respond/respond.min.js',
         'vendor.moment' => 'vendor/moment/moment.min.js',
-        'vendor.datetimepicker' => 'vendor/datetimepicker/datetimepicker.min.js'
+        'vendor.datetimepicker' => 'vendor/datetimepicker/datetimepicker.min.js',
+        
+        'test.vue.element' => 'vendor/foundation/entries/test/vue_element.js',
     ],
 
     'styles' => [
         'font.th_k2d_july8' => 'fonts/th_k2d_july8/style.css',
+        'font.th_sarabun_new' => 'fonts/th_sarabun_new/style.css',
         'vendor.foundation' => 'vendor/foundation/foundation.css',
         'vendor.bootstrap' => 'vendor/bootstrap/css/bootstrap.min.css',
         'vendor.font-awesome' => 'vendor/font-awesome/css/font-awesome.min.css',

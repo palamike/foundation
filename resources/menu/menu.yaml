@@ -6,6 +6,19 @@ menus :
     permissions :
       - "dashboard_view"
 
+  - label : "menu.test"
+    type  : "placeholder"
+    icon : "flask"
+    permissions :
+      - "test_vue_view"
+    children :
+      - label : "menu.test.vue.element"
+        type : "internal"
+        icon : "cube"
+        link : "test/vue"
+        permissions :
+          - "test_vue_view"
+
   - label : "menu.users"
     type  : "placeholder"
     icon : "users"

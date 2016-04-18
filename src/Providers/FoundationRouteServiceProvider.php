@@ -49,6 +49,12 @@ class FoundationRouteServiceProvider extends ServiceProvider
         $router->group($options, function ($router) {
             require __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'Http'.DIRECTORY_SEPARATOR.'routes.php';
         });
+        
+        if(config('app.debug')){
+            $router->group($options, function ($router) {
+                require __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'Http'.DIRECTORY_SEPARATOR.'test_routes.php';
+            });
+        }//if
     }
 }
     

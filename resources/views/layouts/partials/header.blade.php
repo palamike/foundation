@@ -40,11 +40,11 @@
                         <li class="user-footer">
                             @can('user_profile_view')
                             <div class="pull-left">
-                                <a href="{{ route('auth.profile.index') }}" class="btn btn-default btn-flat">@lang('user.profile')</a>
+                                <a href="{{ route('auth.profile.index') }}" class="btn btn-default btn-flat">@lang('foundation::user.profile')</a>
                             </div>
                             @endcan
                             <div class="pull-right">
-                                <a href="{{url('logout')}}" class="btn btn-default btn-flat">@lang('login.sign.out')</a>
+                                <a href="{{url('logout')}}" class="btn btn-default btn-flat">@lang('foundation::login.sign.out')</a>
                             </div>
                         </li>
                     </ul>

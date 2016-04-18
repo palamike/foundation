@@ -78,11 +78,14 @@ elixir(function(mix) {
         .copy(ElixirUtil.vendorSrcPath('eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css'), ElixirUtil.vendorPublicPath('datetimepicker/datetimepicker.min.css'))
         .copy(ElixirUtil.vendorSrcPath('dropzone/dist/min/dropzone.min.css'), ElixirUtil.vendorPublicPath('dropzone/dropzone.min.css'))
         .copy(ElixirUtil.vendorSrcPath('foundation/fonts/th_k2d_july8'), ElixirUtil.assetPublicPath('fonts/th_k2d_july8'))
+        .copy(ElixirUtil.vendorSrcPath('foundation/fonts/th_sarabun_new'), ElixirUtil.assetPublicPath('fonts/th_sarabun_new'))
+        .copy(ElixirUtil.vendorSrcPath('foundation/images'), ElixirUtil.assetPublicPath('images'))
         .copy(ElixirUtil.assetSrcPath('images'), ElixirUtil.assetPublicPath('images'));
 
     var storedDir = elixir.config.assetsDir;
     elixir.config.assetsPath = ElixirUtil.vendorSrcPath('foundation');
     mix.sass(['foundation.scss','loading.scss'],ElixirUtil.vendorPublicPath('foundation/foundation.css'));
+    mix.scripts(['library/common.js','library/ui.js'],ElixirUtil.vendorPublicPath('foundation/foundation.js'));
+    mix.browserify('entries/test/vue_element.js',ElixirUtil.vendorPublicPath('foundation/entries/test/vue_element.js'));
     elixir.config.assetsPath = storedDir;
-    mix.scripts(['library/common.js','library/ui.js'],ElixirUtil.vendorPublicPath('foundation/foundation.js'),ElixirUtil.vendorSrcPath('foundation/js'));
 });

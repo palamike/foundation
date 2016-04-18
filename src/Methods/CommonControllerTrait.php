@@ -12,13 +12,13 @@ namespace Palamike\Foundation\Methods;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
+use Palamike\Foundation\Events\RouteNavigation;
 
 trait CommonControllerTrait {
-
-    public $permisssions;
-
+    
     public $default_sort_order = 'asc';
 
     public function stamp(&$data){
@@ -38,25 +38,37 @@ trait CommonControllerTrait {
         }//else
 
     }
+    
+    public function fireRouteNavigationEvent(){
+        Event::fire(new RouteNavigation());
+    }
 
-    public function mapPermissions(){
+    public function mapPermissions($permissions = null){
+
+        if(empty($permissions) && property_exists($this,'permissions')){
+            $permissions = $this->permissions;
+        }//if
 
         $map = [];
 
-        foreach($this->permissions as $action => $permission){
+        foreach($permissions as $action => $permission){
             $map[$action] = Gate::allows($permission);
         }
 
         return $map;
     }
 
-    public function checkPermission(){
+    public function checkPermission($permissions = null){
+
+        if(empty($permissions) && property_exists($this,'permissions')){
+            $permissions = $this->permissions;
+        }//if
 
         if(!App::runningInConsole()){
             $actionName = Route::getCurrentRoute()->getActionName();
             $method = substr($actionName,strpos($actionName,'@') + 1);
-            if(array_key_exists($method,$this->permissions)){
-                if(Gate::denies($this->permissions[$method])){
+            if(array_key_exists($method,$permissions)){
+                if(Gate::denies($permissions[$method])){
                     abort(403,trans('common.error.403'));
                 }//if
             }//if mapping exists require check permissions

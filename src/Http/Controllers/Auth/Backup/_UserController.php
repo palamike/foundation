@@ -34,9 +34,6 @@ class UserController extends Controller
         $this->checkPermission();
     }
 
-    public function show(Request $request){
-        
-    }//public function show
 
     public function query(Request $request){
 

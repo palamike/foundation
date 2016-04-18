@@ -1,17 +1,20 @@
 function object_to_encoded_url(obj) {
+    "use strict";
     var str = [];
-    for(var p in obj)
+    for( var p in obj ){
         if (obj.hasOwnProperty(p)) {
             str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
         }
+    }
     return str.join("&");
 };
 
 function clone_object(obj) {
+    "use strict";
     var copy;
 
     // Handle the 3 simple types, and null or undefined
-    if (null == obj || "object" != typeof obj) return obj;
+    if (null === obj || "object" !== typeof obj) { return obj; }
 
     // Handle Date
     if (obj instanceof Date) {
@@ -42,6 +45,7 @@ function clone_object(obj) {
 };
 
 function count_object_props(obj){
+    "use strict";
     var count = 0;
     for (var prop in obj) {
         count++;

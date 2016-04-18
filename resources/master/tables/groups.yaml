@@ -9,3 +9,5 @@ groups:
       label: "User Management"
     - name: "setting"
       label: "Settings"
+    - name: "testing"
+      label: "Testing"

@@ -32,10 +32,10 @@ class SettingService
         return !empty($this->settings[$name]) ? $this->settings[$name] : null;
     }//public function getObject
 
-    public function getValue($name){
+    public function getValue($name,$default = 'undefined'){
 
         if(empty($this->settings[$name])){
-            return 'undefined';
+            return $default;
         }//if
 
         switch($this->settings[$name]->type){

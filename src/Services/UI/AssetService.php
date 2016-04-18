@@ -75,7 +75,7 @@ class AssetService
     }//public function addStyles
 
     /**
-     * @param $scripts
+     * @param $scripts string|array
      * @return string
      */
     public function scripts($scripts){
@@ -101,7 +101,7 @@ class AssetService
     }//public function scripts
 
     /**
-     * @param $styles
+     * @param $styles string|array
      * @return string
      */
     public function styles($styles){

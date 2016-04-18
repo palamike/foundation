@@ -7,7 +7,7 @@
  --></a><!--
  -->@if(array_key_exists('children',$item))<!--
  --><ul class="treeview-menu"><!--
-      -->@each('layouts.partials.menu_item',$item['children'],'item')<!--
+      -->@each('foundation::layouts.partials.menu_item',$item['children'],'item')<!--
  --></ul><!--
  -->@endif<!--
 --></li>

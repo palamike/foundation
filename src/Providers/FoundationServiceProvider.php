@@ -23,6 +23,7 @@ use Palamike\Foundation\Events\RouteNavigation;
 use Palamike\Foundation\Events\UserAccess;
 use Palamike\Foundation\Listeners\FoundationLogListener;
 use Palamike\Foundation\Models\Auth\Permission;
+use Palamike\Foundation\Models\Auth\User;
 use Palamike\Foundation\Services\System\LanguageService;
 use Palamike\Foundation\Services\System\SettingService;
 use Palamike\Foundation\Services\UI\AssetService;
@@ -86,6 +87,7 @@ class FoundationServiceProvider extends ServiceProvider {
             $this->loadTranslationsFrom($this->resource_path.DIRECTORY_SEPARATOR.'lang', $this->package_name);
             $this->vendorRegisters([
                 $this->resource_path.DIRECTORY_SEPARATOR.'lang' => resource_path('lang/vendor/'.$this->package_name),
+                $this->resource_path.DIRECTORY_SEPARATOR.'lang'.DIRECTORY_SEPARATOR.'default'.DIRECTORY_SEPARATOR.'menu.php' => resource_path('lang/th/menu.php'),
                 $this->resource_path.DIRECTORY_SEPARATOR.'lang'.DIRECTORY_SEPARATOR.'default'.DIRECTORY_SEPARATOR.'auth.php' => resource_path('lang/th/auth.php'),
                 $this->resource_path.DIRECTORY_SEPARATOR.'lang'.DIRECTORY_SEPARATOR.'default'.DIRECTORY_SEPARATOR.'pagination.php' => resource_path('lang/th/pagination.php'),
                 $this->resource_path.DIRECTORY_SEPARATOR.'lang'.DIRECTORY_SEPARATOR.'default'.DIRECTORY_SEPARATOR.'passwords.php' => resource_path('lang/th/passwords.php'),
@@ -128,6 +130,13 @@ class FoundationServiceProvider extends ServiceProvider {
                     $this->resource_path.DIRECTORY_SEPARATOR.'assets'.DIRECTORY_SEPARATOR.'gulp' => base_path('/')
                 ],'gulp');
 
+            /**
+             * Initial Menu File
+             */
+            $this->vendorRegisters([
+                $this->resource_path.DIRECTORY_SEPARATOR.'menu'.DIRECTORY_SEPARATOR.'menu.yaml' => resource_path('menu/menu.yaml')
+            ],'menu');
+            
             /**
              * Register Commands
              */

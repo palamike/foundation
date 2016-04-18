@@ -14,7 +14,7 @@
     <title>@yield('page-title') | {{setting('application.name')}}</title>
 
     {!! styles([
-        "font.th_k2d_july8",
+        "font.th_sarabun_new",
         "vendor.bootstrap" ,
         "vendor.font-awesome",
         "vendor.ionicons",

@@ -36,3 +36,13 @@ permissions :
           label : "Edit User Setting"
         - name : "setting_media"
           label : "Edit Media Setting"
+
+    - testing :
+        - name : "test_vue_view"
+          label : "View Vue Element Test"
+        - name : "test_vue_add"
+          label : "Add Vue Element Test"
+        - name : "test_vue_edit"
+          label : "Edit Vue Element Test"
+        - name : "test_vue_delete"
+          label : "Delete Vue Element Test"
