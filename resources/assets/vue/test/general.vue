@@ -44,7 +44,9 @@
                     { type : 'email', name : 'email_el', label : 'Email Element', value : '', placeholder : 'user@domain.tld'},
                     { type : 'text', name : 'text_el2', label : 'Text Element', value : ''},
                     { type : 'checkbox', name : 'checkbox_el1', label : 'Checkbox Element', trueValue : 'isCheck', falseValue : 'isUncheck', value : 'isCheck'},
-                    { type : 'checkbox', name : 'checkbox_el2', label : 'Checkbox Element', trueValue : 'isCheck', falseValue : 'isUncheck', value : ''}
+                    { type : 'checkbox', name : 'checkbox_el2', label : 'Checkbox Element', trueValue : 'isCheck', falseValue : 'isUncheck', value : ''},
+                    { type : 'password', name : 'password_el', label : 'Password Element', value : 'test'},
+                    { type : 'static', name : 'static_el', label : 'Static Element', value : 'This is Static Value'}
                 ]
             };
         },

@@ -18,6 +18,19 @@
                             <input type="text" :name="form.name" class="form-control" :placeholder="form.placeholder" v-model="form.value">
                         </div>
                     </div>
+                    <div class="form-group" v-if="form.type == 'password'">
+                        <label :for="form.name" class="col-sm-{{labelWidth}} control-label">{{{form.label}}}</label>
+                        <div class="col-sm-{{inputWidth}}">
+                            <input type="password" :name="form.name" class="form-control" :placeholder="form.placeholder" v-model="form.value">
+                        </div>
+                    </div>
+                    <div class="form-group" v-if="form.type == 'static'">
+                        <label class="col-sm-{{labelWidth}} control-label">{{{form.label}}}</label>
+                        <div class="col-sm-{{inputWidth}}">
+                            <p class="form-control-static">{{{form.value}}}</p>
+                            <input type="hidden" :name="form.name" :value="form.value">
+                        </div>
+                    </div>
                     <div class="form-group" v-if="form.type == 'checkbox'">
                         <label :for="form.name" class="col-sm-{{labelWidth}} control-label">{{{form.label}}}</label>
                         <div class="col-sm-{{inputWidth}}">
@@ -84,14 +97,11 @@
                     var el = $(this);
                     var el_name = $(el).attr('name');
 
-                    var form = self.forms.find(function(form){
-                        return form.name == el_name;
-                    });
-
                     var index = self.forms.findIndex(function(form){
                         return form.name == el_name;
                     });
 
+                    var form = self.forms[index];
                     form.value = el.attr('true-value');
                     self.forms.$set(index,form);
                 });
@@ -100,14 +110,11 @@
                     var el = $(this);
                     var el_name = $(el).attr('name');
 
-                    var form = self.forms.find(function(form){
-                        return form.name == el_name;
-                    });
-
                     var index = self.forms.findIndex(function(form){
                         return form.name == el_name;
                     });
 
+                    var form = self.forms[index];
                     form.value = el.attr('false-value');
                     self.forms.$set(index,form);
                 });
